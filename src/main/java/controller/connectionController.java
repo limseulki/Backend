@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class connectionController {
 
     @GetMapping("/")
-    public String hello(){
+    public String hello0(){
         return "index";
     }
 }
