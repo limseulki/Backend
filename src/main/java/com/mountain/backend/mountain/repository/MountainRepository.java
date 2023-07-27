@@ -4,4 +4,5 @@ import com.mountain.backend.mountain.entity.Mountain;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MountainRepository extends JpaRepository<Mountain, Long> {
+	Mountain findByMountainName(String name);
 }
