@@ -25,4 +25,10 @@ public class MeetController {
         return meetService.modifyMeet(id, requestDto);
     }
 
+    // 모임 삭제
+    @DeleteMapping(value = "api/meet/{meetId}")
+    public ResponseEntity<Message> deleteMeet(@PathVariable("meetId") Long id) {
+        return meetService.deleteMeet(id);
+    }
+
 }
