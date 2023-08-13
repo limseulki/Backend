@@ -59,6 +59,9 @@ public class Meet {
     @Column(nullable = false)
     private LocalDate closingDate;     // 모집마감일
 
+    private boolean isDeleted;      // 삭제여부(Soft Delete)
+
+    // 모임 수정
     public void update(MeetRequestDto requestDto) {
         this.title = requestDto.getTitle();
         this.departureDate = requestDto.getDepartureDate();
@@ -73,4 +76,8 @@ public class Meet {
         this.closingDate = requestDto.getClosingDate();
     }
 
+    // 모임 삭제
+    public void delete() {
+        this.isDeleted = true;
+    }
 }

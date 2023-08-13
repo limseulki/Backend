@@ -33,12 +33,14 @@ public class MeetService {
                 .content(requestDto.getContent())
                 .openDate(requestDto.getOpenDate())
                 .closingDate(requestDto.getClosingDate())
+                .isDeleted(false)
                 .build();
 
         meetRepository.save(meet);
 
         Message message = Message.setSuccess(StatusEnum.OK,"모임 만들기 성공", meet.getId());
         return new ResponseEntity<>(message, HttpStatus.OK);
+
     }
 
     // 모임 수정
@@ -51,6 +53,19 @@ public class MeetService {
 
         Message message = Message.setSuccess(StatusEnum.OK,"모임 수정 성공", meet.getId());
         return new ResponseEntity<>(message, HttpStatus.OK);
+
     }
 
+    // 모임 삭제
+    @Transactional
+    public ResponseEntity<Message> deleteMeet(Long id) {
+
+        Meet meet = meetRepository.findById(id).orElseThrow();  // 예외처리 추가하기
+
+        meet.delete();
+
+        Message message = Message.setSuccess(StatusEnum.OK,"모임 삭제 성공", meet.getId());
+        return new ResponseEntity<>(message, HttpStatus.OK);
+
+    }
 }
