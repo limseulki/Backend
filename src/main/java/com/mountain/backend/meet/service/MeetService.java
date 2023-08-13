@@ -41,4 +41,16 @@ public class MeetService {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
+    // 모임 수정
+    @Transactional
+    public ResponseEntity<Message> modifyMeet(Long id, MeetRequestDto requestDto) {
+
+        Meet meet = meetRepository.findById(id).orElseThrow();  // 예외처리 추가하기
+
+        meet.update(requestDto);
+
+        Message message = Message.setSuccess(StatusEnum.OK,"모임 수정 성공", meet.getId());
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
 }

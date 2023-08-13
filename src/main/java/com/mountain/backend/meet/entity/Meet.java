@@ -2,6 +2,7 @@ package com.mountain.backend.meet.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.mountain.backend.meet.dto.RequestDto.MeetRequestDto;
 import jakarta.persistence.*;
 import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
@@ -57,5 +58,19 @@ public class Meet {
 
     @Column(nullable = false)
     private LocalDate closingDate;     // 모집마감일
+
+    public void update(MeetRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.departureDate = requestDto.getDepartureDate();
+        this.meetSize = requestDto.getMeetSize();
+        this.age = requestDto.getAge();
+        this.gender = requestDto.getGender();
+        this.tag = requestDto.getTag();
+        this.location = requestDto.getLocation();
+        this.course = requestDto.getCourse();   // 코스가 수정될거면 모임을 새로 생성해야 하는 게 아닐까요?
+        this.content = requestDto.getContent();
+        this.openDate = requestDto.getOpenDate();
+        this.closingDate = requestDto.getClosingDate();
+    }
 
 }
