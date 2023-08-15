@@ -26,6 +26,9 @@ public class ResponseDto {
 	public ResponseDto(Mountain mountain){
 
 		this.mountainName = mountain.getMountainName();
+		this.mountainAddress = mountain.getMountainAddress();
+		this.mountainInfo = mountain.getMountainInfo();
+		this.mountainHeight = mountain.getMountainHeight();
 
 		List<Trail> trails = mountain.getTrails();
 		List<TrailResponseDto> cDtos = new ArrayList<>();//객체들을 저장할 ArrayList를 생성
