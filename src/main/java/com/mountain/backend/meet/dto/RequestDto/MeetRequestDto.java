@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,6 +34,8 @@ public class MeetRequestDto {
     private String course;       // 등산코스 - 산일경우
 
     private String content;     // 모임설명
+
+    private MultipartFile imgUrl;      // 이미지
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate openDate;    // 모집시작일
