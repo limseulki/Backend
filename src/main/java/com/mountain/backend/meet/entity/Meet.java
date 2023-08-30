@@ -53,6 +53,9 @@ public class Meet {
     @Column(nullable = false)
     private String content;     // 모임설명
 
+    @Column
+    private String imgUrl;      // 이미지
+
     @Column(nullable = false)
     private LocalDate openDate;    // 모집시작일
 

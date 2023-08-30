@@ -1,6 +1,7 @@
 package com.mountain.backend.meet.service;
 
 import com.mountain.backend.common.util.Message;
+import com.mountain.backend.common.util.S3Uploader;
 import com.mountain.backend.common.util.StatusEnum;
 import com.mountain.backend.meet.dto.RequestDto.MeetRequestDto;
 import com.mountain.backend.meet.entity.Meet;
@@ -11,15 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 public class MeetService {
 
     private final MeetRepository meetRepository;
+    private final S3Uploader s3Uploader;
 
     // 모임 만들기
     @Transactional
-    public ResponseEntity<Message> createMeet(MeetRequestDto requestDto) {
+    public ResponseEntity<Message> createMeet(MeetRequestDto requestDto) throws IOException {
+
+        String imageUrl = s3Uploader.upload(requestDto.getImgUrl());
 
         Meet meet = Meet.builder()
                 .title(requestDto.getTitle())
@@ -31,6 +37,7 @@ public class MeetService {
                 .location(requestDto.getLocation())
                 .course(requestDto.getCourse())
                 .content(requestDto.getContent())
+                .imgUrl(imageUrl)
                 .openDate(requestDto.getOpenDate())
                 .closingDate(requestDto.getClosingDate())
                 .isDeleted(false)
