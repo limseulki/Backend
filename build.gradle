@@ -36,6 +36,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.0.4'
     implementation 'mysql:mysql-connector-java:8.0.33'
 
+
+    //카카오 소셜 로그인 OAuth2.0
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    //JWT
+    compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+
     //AWS S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
@@ -44,7 +54,7 @@ dependencies {
     //sockjs
     implementation 'org.webjars:sockjs-client:1.5.1'
     // stomp
-    implementation 'org.webjars:stomp-websocket:2.3.4'
+
 
 }
 
