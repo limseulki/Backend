@@ -38,3 +38,4 @@ out/
 
 ### custom ###
 application.properties
+application-SECRET.properties

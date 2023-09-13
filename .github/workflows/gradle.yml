@@ -19,6 +19,15 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
+    - name: Resource 폴더 생성
+      run: mkdir -p ./src/main/resources/
+          
+    - name: properties 생성
+      run: touch ./src/main/resources/application-SECRET.properties
+
+    - name: PROPERTIES secret 추가
+      run: echo "${{ secrets.SECRET_PROPERTIES }}" >> ./src/main/resources/application-SECRET.properties
         
     - name: Build with Gradle
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25
