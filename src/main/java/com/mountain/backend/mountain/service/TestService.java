@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mountain.backend.common.Message.Message;
 import com.mountain.backend.mountain.dto.ResponseDto;
 import com.mountain.backend.mountain.dto.SearchRequestDto;
 import com.mountain.backend.mountain.entity.Coordinate;
-import com.mountain.backend.mountain.entity.Message;
 import com.mountain.backend.mountain.entity.Mountain;
 import com.mountain.backend.mountain.entity.Trail;
 import com.mountain.backend.mountain.repository.CoordinateRepository;
@@ -36,7 +36,8 @@ public class TestService {
 		}
 		ResponseDto responseDto = new ResponseDto(mountain);
 
-		return ResponseEntity.ok(new Message(responseDto));
+		// return ResponseEntity.ok(new Message(responseDto));
+		return null;
 
 
 	}
