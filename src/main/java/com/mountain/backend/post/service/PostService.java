@@ -67,9 +67,20 @@ public class PostService {
 
     // 산 리뷰 수정
     @Transactional
-    public ResponseEntity<Message> modifyPost(Long id, PostRequestDto requestDto) {
+    public ResponseEntity<Message> modifyPost(Long id, PostRequestDto requestDto) throws IOException {
 
-        Message message = Message.setSuccess(StatusEnum.OK,"산 리뷰 수정 성공", id);
+        Post post = postRepository.findById(id).orElseThrow();  // 예외처리 추가하기
+
+        StringBuilder imageUrls = new StringBuilder();
+
+        for (MultipartFile image : requestDto.getImages()) {
+            String imageUrl = s3Uploader.upload(image);
+            imageUrls.append(imageUrl + " ");
+        }
+
+        post.update(requestDto, imageUrls.toString());
+
+        Message message = Message.setSuccess(StatusEnum.OK,"산 리뷰 수정 성공", post.getId());
         return new ResponseEntity<>(message, HttpStatus.OK);
 
     }
@@ -78,7 +89,11 @@ public class PostService {
     @Transactional
     public ResponseEntity<Message> deletePost(Long id) {
 
-        Message message = Message.setSuccess(StatusEnum.OK,"산 리뷰 삭제 성공", id);
+        Post post = postRepository.findById(id).orElseThrow();  // 예외처리 추가하기
+
+        post.delete();
+
+        Message message = Message.setSuccess(StatusEnum.OK,"산 리뷰 삭제 성공", post.getId());
         return new ResponseEntity<>(message, HttpStatus.OK);
 
     }
