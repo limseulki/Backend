@@ -3,6 +3,7 @@ package com.mountain.backend.post.service;
 import com.mountain.backend.common.util.Message;
 import com.mountain.backend.common.util.S3Uploader;
 import com.mountain.backend.common.util.StatusEnum;
+import com.mountain.backend.mountain.repository.MountainRepository;
 import com.mountain.backend.post.dto.RequestDto.PostRequestDto;
 import com.mountain.backend.post.dto.ResponseDto.PostResponseDto;
 import com.mountain.backend.post.entity.Post;
@@ -23,6 +24,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final MountainRepository mountainRepository;
     private final S3Uploader s3Uploader;
 
     // 산 리뷰 목록 조회(리뷰버튼 클릭)
@@ -43,7 +45,7 @@ public class PostService {
 
     // 산 리뷰 작성
     @Transactional
-    public ResponseEntity<Message> createPost(PostRequestDto requestDto) throws IOException {
+    public ResponseEntity<Message> createPost(Long mountainId, PostRequestDto requestDto) throws IOException {
 
         StringBuilder imageUrls = new StringBuilder();
 
@@ -56,6 +58,7 @@ public class PostService {
                 .tags(requestDto.getTags())
                 .content(requestDto.getContent())
                 .imageUrlList(imageUrls.toString())
+                .mountain(mountainRepository.findById(mountainId).orElseThrow())
                 .build();
 
         postRepository.save(post);
