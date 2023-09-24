@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -56,9 +59,18 @@ public class WebSecurityConfig {
 		http.authorizeHttpRequests(request -> request
 			.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 			.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/api/user/kakao/**")).permitAll()
+
+			// .requestMatchers(new AntPathRequestMatcher("/api/user/kakao/**")).permitAll()
+			// .requestMatchers(new AntPathRequestMatcher("/api/main/mountains")).permitAll()
+			// .requestMatchers(PathRequest.toH2Console()).permitAll()
+			// .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+
+			.requestMatchers("/api/user/kakao/**").permitAll()
+			.requestMatchers("/api/main/start/**").permitAll()
+
+			.requestMatchers("/api/main/mountains").permitAll()
 			.requestMatchers(PathRequest.toH2Console()).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+			.requestMatchers("/h2-console/**").permitAll()
 
 			.anyRequest()
 
@@ -77,6 +89,36 @@ public class WebSecurityConfig {
 
 		return http.build();
 
+	}
+
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedOrigin("*");
+
+
+		// configuration.addAllowedOrigin("http://localhost:8080");
+
+
+		//모든 방식(GET, POST, PUT, DELETE 등)으로 데이터를 요청할 수 있게함
+
+		configuration.addAllowedMethod("GET");
+		configuration.addAllowedMethod("POST");
+		configuration.addAllowedMethod("PUT");
+		configuration.addAllowedMethod("DELETE");
+
+
+
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+		//이 부분은 위에서 설정한 CORS 설정을 모든 경로에 적용
+		source.registerCorsConfiguration("/**", configuration);
+
+		return source;
 	}
 
 

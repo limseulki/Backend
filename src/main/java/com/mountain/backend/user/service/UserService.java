@@ -138,7 +138,7 @@ public class UserService {
 		log.info("카카오 사용자 이메일 : " + email);
 		log.info("카카오 사용자 성별 : " + gender);
 		log.info("카카오 사용자 연령대 : " + age_range);
-		return new KakaoUserInfoDto(id, nickname, email,gender,age_range);
+		return new KakaoUserInfoDto(id, email,nickname,gender,age_range);
 	}
 	// 3. 필요시에 회원가입
 	@Transactional
