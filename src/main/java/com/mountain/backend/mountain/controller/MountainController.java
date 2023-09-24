@@ -1,8 +1,10 @@
 package com.mountain.backend.mountain.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,6 +13,7 @@ import com.mountain.backend.common.Message.Message;
 import com.mountain.backend.mountain.dto.SearchRequestDto;
 import com.mountain.backend.mountain.service.MountainService;
 import com.mountain.backend.mountain.service.TestService;
+import com.mountain.backend.security.auth.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,22 +37,24 @@ public class MountainController {
 		return null;
 	}
 	//등산시작
-	@GetMapping()
-	public ResponseEntity<Message> hikingStart(){
+	@GetMapping("/api/main/start/{userId}")
+	public ResponseEntity<Message> hikingStart(@PathVariable Long userId){
 
-		return null;
+
+
+		return mountainService.hikingStart(userId);
 	}
 	//등산일시정지
-	@GetMapping()
-	public ResponseEntity<Message> hikingPause(){
+	@GetMapping("/api/main/pause/{userId}")
+	public ResponseEntity<Message> hikingPause(@PathVariable Long userId){
 
-		return null;
+		return mountainService.hikingPause(userId);
 	}
 	//등산종료
-	@GetMapping()
-	public ResponseEntity<Message> hikingEnd(){
+	@GetMapping("/api/main/end/{userId}")
+	public ResponseEntity<Message> hikingEnd(@PathVariable Long userId){
 
-		return null;
+		return mountainService.hikingEnd(userId);
 	}
 
 
