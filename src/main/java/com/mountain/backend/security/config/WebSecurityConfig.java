@@ -64,6 +64,7 @@ public class WebSecurityConfig {
 			.requestMatchers(new AntPathRequestMatcher("/api/meet/**")).permitAll()
 			.requestMatchers(new AntPathRequestMatcher("/api/mountain/**")).permitAll()
 			.requestMatchers(new AntPathRequestMatcher("/api/post/**")).permitAll()
+			.requestMatchers(new AntPathRequestMatcher("/api/user/**")).permitAll()
 			.requestMatchers(PathRequest.toH2Console()).permitAll()
 			.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
 

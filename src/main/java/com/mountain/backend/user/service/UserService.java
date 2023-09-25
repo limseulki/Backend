@@ -1,12 +1,25 @@
 package com.mountain.backend.user.service;
 
-import java.util.UUID;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mountain.backend.common.Message.Message;
+import com.mountain.backend.common.Message.StatusEnum;
+import com.mountain.backend.post.entity.Post;
+import com.mountain.backend.post.repository.PostRepository;
+import com.mountain.backend.security.jwt.JwtUtil;
+import com.mountain.backend.security.jwt.TokenDto;
+import com.mountain.backend.user.dto.ResponseDto.UserInfoResponseDto;
+import com.mountain.backend.user.dto.request.KakaoUserInfoDto;
+import com.mountain.backend.user.dto.response.LoginResponseDto;
+import com.mountain.backend.user.dto.response.UserPostsResponseDto;
+import com.mountain.backend.user.entity.User;
+import com.mountain.backend.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,28 +27,16 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mountain.backend.common.Message.Message;
-import com.mountain.backend.common.Message.StatusEnum;
-import com.mountain.backend.security.jwt.JwtUtil;
-import com.mountain.backend.security.jwt.TokenDto;
-import com.mountain.backend.user.dto.request.KakaoUserInfoDto;
-
-import com.mountain.backend.user.dto.response.LoginResponseDto;
-import com.mountain.backend.user.entity.User;
-import com.mountain.backend.user.repository.UserRepository;
-
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
 
+	private final PostRepository postRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final UserRepository userRepository;
 	private final JwtUtil jwtUtil;
@@ -185,4 +186,31 @@ public class UserService {
 
 	}
 
+	// 마이페이지 - 내 정보 조회
+	public ResponseEntity<Message> userInfo(Long id) {
+
+		User user = userRepository.findById(id).orElseThrow();
+
+		UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto(user);
+
+		Message message = Message.setSuccess(StatusEnum.OK, "내 정보 조회 성공", userInfoResponseDto);
+		return new ResponseEntity<>(message, HttpStatus.OK);
+
+	}
+
+	// 마이페이지 - 후기 모아보기
+	public ResponseEntity<Message> userPosts(Long id) {
+
+		User user = userRepository.findById(id).orElseThrow();
+		List<Post> postList = postRepository.findAllByUserId(id);
+		List<UserPostsResponseDto> userPostsResponseDtoList = new ArrayList<>();
+
+		for(Post post : postList) {
+			userPostsResponseDtoList.add(new UserPostsResponseDto(post, user));
+		}
+
+		Message message = Message.setSuccess(StatusEnum.OK, "내 후기 모아보기 성공", userPostsResponseDtoList);
+		return new ResponseEntity<>(message, HttpStatus.OK);
+
+	}
 }
