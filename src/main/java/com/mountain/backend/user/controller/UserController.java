@@ -1,11 +1,7 @@
 package com.mountain.backend.user.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mountain.backend.common.Message.Message;
@@ -29,6 +25,18 @@ public class UserController {
 
 		return userService.login(code,response);
 
-
 	}
+
+	// 마이페이지 - 내 정보 조회
+	@GetMapping(value = "{userId}")
+	public ResponseEntity<Message> userInfo(@PathVariable("userId") Long id) {
+		return userService.userInfo(id);
+	}
+
+	// 마이페이지 - 후기 모아보기
+	@GetMapping(value = "{userId}/posts")
+	public ResponseEntity<Message> userPosts(@PathVariable("userId") Long id) {
+		return userService.userPosts(id);
+	}
+
 }
