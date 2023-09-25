@@ -29,7 +29,7 @@ public class WebSecurityConfig {
 
 	private static final String[] PERMIT_URL_ARRAY={
 
-		"/api/user/kakao/**", "/api/meet/**"
+		"/api/user/kakao/**",
 	};
 
 	//정적자원은 인증인가를 하지않겠다.
@@ -65,8 +65,18 @@ public class WebSecurityConfig {
 			.requestMatchers(new AntPathRequestMatcher("/api/mountain/**")).permitAll()
 			.requestMatchers(new AntPathRequestMatcher("/api/post/**")).permitAll()
 			.requestMatchers(new AntPathRequestMatcher("/api/user/**")).permitAll()
+
+			// .requestMatchers(new AntPathRequestMatcher("/api/user/kakao/**")).permitAll()
+			// .requestMatchers(new AntPathRequestMatcher("/api/main/mountains")).permitAll()
+			// .requestMatchers(PathRequest.toH2Console()).permitAll()
+			// .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+
+			.requestMatchers("/api/user/kakao/**").permitAll()
+			.requestMatchers("/api/main/start/**").permitAll()
+
+			.requestMatchers("/api/main/mountains").permitAll()
 			.requestMatchers(PathRequest.toH2Console()).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+			.requestMatchers("/h2-console/**").permitAll()
 
 			.anyRequest()
 
@@ -85,6 +95,36 @@ public class WebSecurityConfig {
 
 		return http.build();
 
+	}
+
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedOrigin("*");
+
+
+		// configuration.addAllowedOrigin("http://localhost:8080");
+
+
+		//모든 방식(GET, POST, PUT, DELETE 등)으로 데이터를 요청할 수 있게함
+
+		configuration.addAllowedMethod("GET");
+		configuration.addAllowedMethod("POST");
+		configuration.addAllowedMethod("PUT");
+		configuration.addAllowedMethod("DELETE");
+
+
+
+		configuration.setAllowCredentials(true);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+		//이 부분은 위에서 설정한 CORS 설정을 모든 경로에 적용
+		source.registerCorsConfiguration("/**", configuration);
+
+		return source;
 	}
 
 

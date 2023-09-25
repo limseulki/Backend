@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-@PropertySource(value = { "classpath:application-SECRET.properties" })
 public class BackendApplication {
 
     public static void main(String[] args) {
