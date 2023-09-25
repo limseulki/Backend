@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,7 +24,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-
 
 	private static final String[] PERMIT_URL_ARRAY={
 
@@ -40,8 +38,6 @@ public class WebSecurityConfig {
 			.requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 
 	}
-
-
 
 	//비밀번호 암호화
 	@Bean
@@ -60,16 +56,10 @@ public class WebSecurityConfig {
 		http.authorizeHttpRequests(request -> request
 			.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 			.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/api/user/kakao/**")).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/api/meet/**")).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/api/mountain/**")).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/api/post/**")).permitAll()
-			.requestMatchers(new AntPathRequestMatcher("/api/user/**")).permitAll()
-
-			// .requestMatchers(new AntPathRequestMatcher("/api/user/kakao/**")).permitAll()
-			// .requestMatchers(new AntPathRequestMatcher("/api/main/mountains")).permitAll()
-			// .requestMatchers(PathRequest.toH2Console()).permitAll()
-			// .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+			.requestMatchers("/api/meet/**").permitAll()
+			.requestMatchers("/api/mountain/**").permitAll()
+			.requestMatchers("/api/post/**").permitAll()
+			.requestMatchers("/api/user/**").permitAll()
 
 			.requestMatchers("/api/user/kakao/**").permitAll()
 			.requestMatchers("/api/main/start/**").permitAll()
@@ -82,13 +72,9 @@ public class WebSecurityConfig {
 
 			.authenticated()
 
-
-
-
 		);
 
 			http.headers().frameOptions(Customizer.withDefaults()).disable();
-
 
 		http
 			.cors(withDefaults());
@@ -114,8 +100,6 @@ public class WebSecurityConfig {
 		configuration.addAllowedMethod("POST");
 		configuration.addAllowedMethod("PUT");
 		configuration.addAllowedMethod("DELETE");
-
-
 
 		configuration.setAllowCredentials(true);
 
